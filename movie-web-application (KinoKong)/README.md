@@ -1,4 +1,4 @@
-# CST-339
+# Kino Kong
 Kino Kong Movie Website Application
 
 KinoKong.zip is where the application is held.
