@@ -19,4 +19,4 @@ Ubuntu Terminal - Projects within a VM in which I studied launching projects thr
 
 Minesweeper GUI - GUI of a Minesweeper application within Visual Studio.
 
-**Although these are only a few of the projects I have worked on, I am highly driven to learning more and enhancing my coding knowledge all around to be a well-rounded software developer overall.**
+**Although these are only a few of the projects I have worked on, I am highly driven to learning more and enhancing my coding knowledge all around to become a more well-rounded software developer overall.**
