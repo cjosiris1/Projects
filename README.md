@@ -17,4 +17,4 @@ Movie Web Application (KinoKong) - A movie website set up to display multiple mo
 
 Ubuntu Terminal - Projects within a VM in which I studied launching projects through terminal commands and multiple aspects of cybersecurity. 
 
-Minesweeper GUI - GUI of my Minesweeper project within Visual Studio.
+Minesweeper GUI - GUI of a Minesweeper application within Visual Studio.
