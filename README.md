@@ -3,6 +3,8 @@ These are several projects which I have worked on during my coding journey.
 
 Android Projects - Use of Kotlin and practice with mobile UI design within Android Studio.
 
+Bash - Use of Ubuntu to execute bash commands within the Oracle VM.
+
 Client Tattoo Webpage - Use of Visual Studio and .Net Core, a project worked on for a client by the name of Helena Grace.
 
 Data Structure and Algorithms - Use of Php, Python, Javascript. Multiple projects which dealt with honing my knowledge and skill for well-optimized and efficient code. 
