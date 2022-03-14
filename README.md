@@ -15,7 +15,7 @@ Front End - Use of Javascript and Html. Simple projects set up within html inclu
 
 Movie Web Application (KinoKong) - A movie website set up to display multiple movies in a visually appealing format, practice with securing webpages, insertion and recollection of data within a database, and displaying videos within html. Use of Java, Spring Suite, MongoDB, Postman, MAMP, MySQL, JSON, and XML.
 
-Ubuntu Terminal - Projects within a VM in which I studied launching projects through terminal commands and multiple aspects of cybersecurity. 
+Ubuntu Terminal - Projects within Oracle VM in which I studied launching projects through terminal commands and multiple aspects of cybersecurity. 
 
 Minesweeper GUI - GUI of a Minesweeper application within Visual Studio.
 
