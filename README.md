@@ -7,4 +7,4 @@ Client Tattoo Webpage - Use of Visual Studio and .Net Core, a project worked on 
 
 Data Structure and Algorithms - multiple projects which dealt with honing my knowledge and skill for well-optimized and effecient code. 
 
-Movie Web Application (KinoKong) - A movie website set up to display multiple movies in a visually appealing format, practice with securing webpages and insertion and recall of data within a database.
+Movie Web Application (KinoKong) - A movie website set up to display multiple movies in a visually appealing format, practice with securing webpages, insertion and recollection of data within a database, and displaying videos within html. Use of Spring Suite, MongoDB, Postman, MAMP, MySQL.
