@@ -5,7 +5,7 @@ Android Projects - Use of Kotlin and practice with mobile UI app design within A
 
 Bash - Use of Ubuntu to execute bash commands within the Oracle VM.
 
-Client Tattoo Webpage - Use of Visual Studio and .Net Core, a project worked on for a client by the name of Helena Grace.
+Client Tattoo Webpage - Use of Visual Studio, .Net Core, and MAMP, a project worked on for a client by the name of Helena Grace.
 
 Data Structure and Algorithms - Use of Php, Python, Javascript. Multiple projects which dealt with honing my knowledge and skill for well-optimized and efficient code. 
 
