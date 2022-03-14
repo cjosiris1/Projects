@@ -1,5 +1,4 @@
-# Kino Kong
-Kino Kong Movie Website Application
+# Kino Kong Movie Website Application
 
 KinoKong.zip is where the application is held.
 A video recording is placed within the Milestone Doc.
