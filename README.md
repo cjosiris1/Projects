@@ -1,7 +1,7 @@
 # Projects
 These are several projects which I have worked on during my coding journey. 
 
-Android Projects - Use of Kotlin and practice with mobile UI design within Android Studio.
+Android Projects - Use of Kotlin and practice with mobile UI app design within Android Studio.
 
 Bash - Use of Ubuntu to execute bash commands within the Oracle VM.
 
