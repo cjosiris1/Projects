@@ -1,0 +1,25 @@
+﻿@model IEnumerable<HelenaGrace.Models.Design>
+@using Microsoft.AspNetCore.Http;
+
+<p style="color:green">@ViewData["Success"]</p><p style="color:red">@ViewData["Fail"]</p>
+<div class="container">
+    @{ var i = 0;}
+    @foreach (var item in Model)
+    {
+        if (i % 3 == 0)
+        {
+            @:<div class="row">
+            }
+            <div class="col">
+                <form asp-controller="Artist" asp-action="DesignView">
+                    <input type="image" src="~/images/@item.Path" class="img-fluid">
+                    <input name="Id" type="hidden" value="@item.Id" />
+                </form>
+            </div>
+            if (i % 3 == 2)
+            {
+            @:</div>
+        }
+        i++;
+    }
+</div>

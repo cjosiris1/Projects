@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tic Tac Toe</title>
+    <style type="text/css">
+        table.tictactoe {
+            margin: 2em auto;
+            border-collapse: collapse;
+        }
+
+        table.tictactoe tr td {
+            border: 1px solid #ccc;
+            cursor: pointer;
+            text-align: center;
+            vertical-align: center;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<table id="game1" class="tictactoe">
+    <tr data-row="0">
+        <td class="cell" data-id="1" data-col="0"></td>
+        <td class="cell" data-id="2" data-col="1"></td>
+        <td class="cell" data-id="3" data-col="2"></td>
+    </tr>
+    <tr data-row="1">
+        <td class="cell" data-id="4" data-col="0"></td>
+        <td class="cell" data-id="5" data-col="1"></td>
+        <td class="cell" data-id="6" data-col="2"></td>
+    </tr>
+    <tr data-row="2">
+        <td class="cell" data-id="7" data-col="0"></td>
+        <td class="cell" data-id="8" data-col="1"></td>
+        <td class="cell" data-id="9" data-col="2"></td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+
+    class TicTacToe {
+        id = '';
+        __lastPlayer = 'X';
+        __winner = '';
+
+        constructor(id) {
+            this.id = id;
+
+            this.__activateControls();
+        }
+
+        __togglePlayer() {
+            if (this.__lastPlayer === 'X') {
+                this.__lastPlayer = 'O';
+            } else {
+                this.__lastPlayer = 'X';
+            }
+        }
+
+        __activateControls() {
+            const cells = document.querySelectorAll(`#${this.id} td.cell`);
+
+            cells.forEach((cell) => {
+                cell.addEventListener('click', () => {
+
+                    if (this.__winner) return;
+
+                    const value = cell.innerHTML;
+                    if (!value) {
+                        cell.innerHTML = this.__lastPlayer;
+
+                        if (this.__checkWinner(this.__lastPlayer, cell.attributes.getNamedItem('data-id').value)) {
+                            alert(`${this.__lastPlayer} has won the game!`);
+                            this.__winner = this.__lastPlayer;
+                            return;
+                        }
+                        this.__togglePlayer();
+                    } else {
+                        alert('Please select an empty cell!');
+                    }
+                })
+            });
+        }
+
+        __checkWinner(player, cellId) {
+            const $currentCell = document.querySelector(`#${this.id} .cell[data-id="${cellId}"]`);
+
+            // get row & column
+            const row = Math.ceil(parseInt(cellId) / 3) - 1;
+            const column = parseInt($currentCell.attributes.getNamedItem('data-col').value);
+            let hasWon = false;
+
+            // check all horizontal cells given cellID
+            let cellValue;
+            for (let i = 1; i <= 3; i++) {
+                cellValue = document.querySelector(`#${this.id} .cell[data-id="${row + i}"]`).innerHTML;
+                hasWon = cellValue === player;
+                if (!hasWon) break;
+            }
+
+            if (hasWon) return hasWon;
+
+            // check vertical
+            for (let j = 0; j < 3; j++) {
+                cellValue = document.querySelector(`#${this.id} .cell[data-id="${column + (j * 3) + 1}"]`).innerHTML;
+                hasWon = cellValue === player;
+                if (!hasWon) break;
+            }
+
+            if (hasWon) return hasWon;
+
+
+            // check all diagonal cells given cellId
+            const BreakException = {};
+
+            // check 0,0 1,1 2,2
+            try {
+                [[0, 0], [1, 1], [2, 2]].forEach(coords => {
+                    cellValue = document.querySelector(`#${this.id} tr[data-row="${coords[0]}"] .cell[data-col="${coords[1]}"]`).innerHTML;
+                    hasWon = cellValue === player;
+                    if (!hasWon) throw BreakException;
+                });
+            } catch (e) {
+                if (e !== BreakException) throw  e;
+                hasWon = false;
+            }
+
+            if (hasWon) return hasWon;
+
+            // check 0,2 1,1 2,0
+            try {
+                [[0, 2], [1, 1], [2, 0]].forEach(coords => {
+                    cellValue = document.querySelector(`#${this.id} tr[data-row="${coords[0]}"] .cell[data-col="${coords[1]}"]`).innerHTML;
+                    hasWon = cellValue === player;
+                    if (!hasWon) throw  BreakException;
+                })
+            } catch (e) {
+                if (e !== BreakException) throw  e;
+                hasWon = false;
+            }
+
+
+            return hasWon;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const game = new TicTacToe('game1');
+    });
+
+</script>
+</body>
+</html>

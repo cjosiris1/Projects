@@ -1,0 +1,33 @@
+﻿@model HelenaGrace.Models.Design
+@using Microsoft.AspNetCore.Http;
+
+<div>
+    <p style="color:green">@ViewData["Success"]</p><p style="color:red">@ViewData["Fail"]</p>
+    <div class="row">
+        <div class="col">
+            <img src="~/images/@Model.Path" class="img-fluid" />
+            <br />
+            <p>Uploaded On: @Model.DateTime</p>
+        </div>
+        <div class="col">
+            @if (Model.Description != String.Empty)
+            {
+                <h3>About This Design</h3>
+                <p>@Model.Description</p>
+            }
+            @if (Context.Session.GetInt32("loggedIn") != null)
+            {
+                <form asp-controller="Artist" asp-action="EditDescriptionView">
+                    <input asp-for="Id" type="hidden" value="@Model.Id" />
+                    <input asp-for="Description" type="hidden" value="@Model.Description" />
+                    <input type="submit" value="Edit Description" class="btn btn-primary" />
+                </form>
+                <form asp-controller="Artist" asp-action="DeleteDesign">
+                    <input asp-for="Id" type="hidden" value="@Model.Id" />
+                    <input asp-for="Path" type="hidden" value="@Model.Path" />
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </form>
+            }
+        </div>
+    </div>
+</div>

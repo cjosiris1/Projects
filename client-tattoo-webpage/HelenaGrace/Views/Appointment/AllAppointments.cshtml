@@ -1,0 +1,54 @@
+﻿@model IEnumerable<HelenaGrace.Models.Appointment>
+
+<p style="color:green">@ViewData["Success"]</p><p style="color:red">@ViewData["Fail"]</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.dateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phoneNumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.dateTime < DateTime.Now)
+            {
+                @:<tr style="background-color: #f2f2f2">
+            }
+            else
+            {
+                @:<tr>
+            }
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phoneNumber)
+                </td>
+                <td>
+                    <form asp-action="DeleteAppt">
+                        <input name="id" type="hidden" value="@item.id" />
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </form>
+                </td>
+            @:</tr>
+        }
+    </tbody>
+</table>

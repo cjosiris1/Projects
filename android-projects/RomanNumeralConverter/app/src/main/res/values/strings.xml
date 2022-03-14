@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">RomanNumeralConverter</string>
+    <string name="convertToRoman">Convert To Roman</string>
+    <string name="NumberHint">Enter a number</string>
+    <string name="RomanNumeralHint" />
+    <string name="EnterARoman">Enter a roman numeral</string>
+    <string name="ConvertToNumber">Convert to number</string>
+</resources>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Slideshow App</title>
+    <style type="text/css">
+        body,
+        html {
+            font-family: system, -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+            "Lucida Grande", sans-serif;
+            background: white;
+            padding: 1rem;
+            line-height: 1.6;
+        }
+
+        .slideshow-wrapper {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto 2em;
+        }
+
+        .slideshow-content {
+            background: #ccc;
+            width: 100%;
+            text-align: center;
+        }
+
+        .slideshow-content .slideshow-image {
+            display: none;
+            width: 100%;
+            height: 400px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .slideshow-content .slideshow-image {
+            animation: fadeIn 3s;
+            /*-webkit-animation: fadeIn 2s;*/
+            /*-moz-animation: fadeIn 2s;*/
+            /*-o-animation: fadeIn 2s;*/
+            /*-ms-animation: fadeIn 2s;*/
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /*@-moz-keyframes fadeIn {*/
+        /*    0% {opacity:0;}*/
+        /*    100% {opacity:1;}*/
+        /*}*/
+
+        /*@-webkit-keyframes fadeIn {*/
+        /*    0% {opacity:0;}*/
+        /*    100% {opacity:1;}*/
+        /*}*/
+
+        /*@-o-keyframes fadeIn {*/
+        /*    0% {opacity:0;}*/
+        /*    100% {opacity:1;}*/
+        /*}*/
+
+        /*@-ms-keyframes fadeIn {*/
+        /*    0% {opacity:0;}*/
+        /*    100% {opacity:1;}*/
+        /*}*/
+
+        .slideshow-content .slideshow-image.active {
+            display: block;
+        }
+
+        .slideshow-footer .navigation-controls,
+        .slideshow-footer .play-controls {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        .slideshow-footer .play-controls {
+            justify-content: center;
+        }
+
+        .slideshow-footer .play-controls button {
+            padding: 10px 15px;
+        }
+
+        .right-btn,
+        .left-btn {
+            padding: 1em 2.5em;
+            height: 45px;
+            cursor: pointer;
+        }
+
+        .left-btn {
+            margin-right: auto;
+        }
+
+        .image-caption {
+            margin: 0 auto;
+            padding: 0 1em;
+            text-align: center;
+        }
+
+        .right-btn {
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+<noscript>
+    You need to enable JavaScript to run this app.
+</noscript>
+<div id="slideshow"></div>
+<div id="slideshow2"></div>
+
+<script type="text/javascript">
+    const getDogs = (length = 10) => {
+        const limit = 2 * length; // get double the requested posts because some don't have images
+        return fetch(`https://www.reddit.com/r/dogswithjobs/.json?limit=${limit}`)
+            .then((response) => response.json())
+            .then((response) => {
+                const dogs = [];
+                response.data.children.forEach((c) => {
+                    const title = c.data.title;
+                    const url = c.data.preview?.images[0]?.resolutions[2]?.url;
+                    if (url) {
+                        dogs.push({title: title, url: url.replaceAll("&amp;", "&")});
+                    }
+                });
+
+                // remove the extra dogs
+                return dogs.slice(0, length);
+            });
+    };
+
+    /**
+     * Helper to query dom elements
+     */
+    const $ = (selector) => {
+        const elements = document.querySelectorAll(selector);
+        if(elements.length > 1)
+            return elements
+        else if(elements.length === 1){
+            return elements[0];
+        }
+
+        return null
+    }
+
+    /**
+     * @class Slideshow
+     */
+    class Slideshow {
+
+        /**
+         * @property {string}
+         */
+        id = '';
+
+        /**
+         * Slideshow delay in microseconds within transitions
+         * @property {number}
+         */
+        __delay = 1000;
+
+        /**
+         * The id of our interval loop
+         * @property {number}
+         */
+        __intervalLoop = null;
+
+        /**
+         * Slideshow images
+         * @property {array}
+         */
+        __images = [];
+
+        /**
+         * Current slideshow image's index
+         * @property {number}
+         */
+        __currentIndex = 0;
+
+        /**
+         * @property {string|null}
+         */
+        __backgroundColor = null;
+
+        /**
+         * Constructor
+         * @param {string} containerId
+         * @param {object} options
+         */
+        constructor(containerId, options = {}) {
+
+            // complain if we dont have an id
+            if (!containerId) {
+                throw new DOMException('Please supply the id for the div container that will hold our slideshow!');
+            }
+
+            const images = options.images || [];
+
+
+            this.id = containerId;
+            this.__delay = options.delay || this.__delay;
+            this.__backgroundColor = options.backgroundColor || this.__backgroundColor;
+
+            this.__addImages(images);
+        }
+
+        /**
+         * Activates a particular image given an index
+         * @param {number} index
+         */
+        __activateImage(index = 0) {
+            // make sure we have images and our index is within slideshow bounds
+            if (
+                this.__images.length === 0 ||
+                index > this.__images.length - 1 ||
+                index < 0
+            )
+                return;
+
+            // get all active images class and remove active class
+            let activeImage = $(`#${this.id} .slideshow-image.active`);
+            if (activeImage) {
+                activeImage.classList.remove("active");
+            }
+
+            // get our image of focus
+            const image = this.__images[index];
+
+            // set image caption to active image
+            if (image) {
+                $(`#${this.id} .image-caption`).innerHTML = image.title;
+            }
+
+            // get new active image and activate it
+            activeImage = $(`#${this.id} .slideshow-image[data-index="${index}"]`);
+
+            if (activeImage) {
+                activeImage.classList.add("active");
+            }
+        }
+
+        /**
+         * Adds images to our slideshow
+         * @param {array} images
+         */
+        __addImages(images = []) {
+            // do not do anything if we don't have any images to add
+            if (!images) return;
+
+            this.__images = images;
+
+            const slideshowImagesContainer = $(`#${this.id}`);
+            slideshowImagesContainer.innerHTML = 'Loading...';
+
+            let imagesHtml = `<div class="slideshow-wrapper">
+                                    <div class="slideshow-content">`;
+            images.forEach((image, index) => {
+                imagesHtml += `<div class='slideshow-image ${
+                    this.__currentIndex === index ? "active" : ""
+                }' style="background-image: url(${image.url})" data-title="${
+                    image.title
+                }" data-index="${index}"></div>`;
+            });
+            imagesHtml += `</div>
+                            <div class="slideshow-footer">
+                                <div class="navigation-controls">
+                                    <button class="left-btn"><</button>
+                                    <span class="image-caption">Loading...</span>
+                                    <button class="right-btn">></button>
+                                </div>
+                                <div class="play-controls">
+                                    <button class="play-btn">Play</button>
+                                    <button class="stop-btn" disabled>Stop</button>
+                                </div>
+                            </div>
+                        </div>`
+            slideshowImagesContainer.innerHTML = imagesHtml;
+
+            // update slider background color
+            if (this.__backgroundColor) {
+                $(`#${this.id} .slideshow-content`).style.backgroundColor = this.__backgroundColor;
+            }
+
+            this.activateControls();
+        }
+
+        /**
+         * Sets next image in slideshow as active image
+         */
+        next() {
+            // make sure that current index < images.length - 1 then move forward
+            if (this.__currentIndex < this.__images.length - 1) {
+                this.__currentIndex++;
+            } else {
+                // otherwise we reset to index = 0
+                this.__currentIndex = 0;
+            }
+
+            this.__activateImage(this.__currentIndex);
+        }
+
+        /**
+         * Sets previous image in slideshow as active
+         */
+        previous() {
+            // make sure that current index > 0 then decrement
+            if (this.__currentIndex > 0) {
+                this.__currentIndex--;
+            } else {
+                this.__currentIndex = this.__images.length - 1;
+            }
+
+            this.__activateImage(this.__currentIndex);
+        }
+
+        /**
+         * Plays our slideshow
+         */
+        play() {
+
+            // call next() every x delay
+            this.__intervalLoop = setInterval(() => {
+                this.next();
+            }, this.__delay);
+        }
+
+        /**
+         * Stops our slideshow
+         */
+        stop() {
+            if (this.__intervalLoop) {
+                clearInterval(this.__intervalLoop);
+            }
+        }
+
+        /**
+         * Activates our slideshow controls
+         */
+        activateControls() {
+            const leftBtn = $(`#${this.id} .left-btn`);
+            const rightBtn = $(`#${this.id} .right-btn`)
+            const playBtn = $(`#${this.id} .play-btn`);
+            const stopBtn = $(`#${this.id} .stop-btn`);
+            const slideshowImages = $(`#${this.id} .slideshow-content`);
+
+            // activate default image
+            this.__activateImage(this.__currentIndex);
+
+            /**
+             * Helper to disable a button
+             * @param {HTMLElement} btn
+             */
+            const __disableBtn = (btn) => {
+                if (btn) {
+                    btn.setAttribute('disabled', true)
+                }
+            };
+
+            /**
+             * Helper to enable a button
+             * @param {HTMLElement} btn
+             */
+            const __enableBtn = (btn) => {
+                if (btn) {
+                    btn.removeAttribute('disabled')
+                }
+            }
+
+            // add listener to left btn
+            leftBtn.addEventListener("click", () => {
+                this.previous();
+            });
+
+            // add listener to right btn
+            rightBtn.addEventListener("click", () => {
+                this.next();
+            });
+
+            // add listener on play btn to play slideshow
+            playBtn.addEventListener('click', () => {
+
+                // play the slideshow
+                this.play();
+
+                // disable the play button and direction buttons
+                [playBtn, leftBtn, rightBtn].forEach((btn) => {
+                    __disableBtn(btn);
+                });
+
+                // enable the stop button
+                __enableBtn(stopBtn);
+            });
+
+            // add a listener to the stop button to stop the slideshow
+            stopBtn.addEventListener('click', () => {
+
+                // stop the slideshow
+                this.stop();
+
+                // disable the stop button
+                __disableBtn(stopBtn);
+
+                // re-enable the play button, as well as direction buttons
+                [playBtn, leftBtn, rightBtn].forEach((btn) => {
+                    __enableBtn(btn);
+                });
+            });
+
+            // pause on mouse over
+            slideshowImages.addEventListener('mouseover', () => {
+                // check if play button is disabled
+                if (playBtn.attributes.getNamedItem('disabled')) {
+                    this.stop();
+                }
+            });
+
+            // pause on mouse out
+            slideshowImages.addEventListener('mouseout', () => {
+                // check if play button is disabled
+                if (playBtn.attributes.getNamedItem('disabled')) {
+                    this.play();
+                }
+            });
+
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let slideshow1;
+        let slideshow2;
+
+        // fetch images
+        getDogs()
+            .then((data) => {
+                slideshow1 = new Slideshow('slideshow', {
+                    images: data,
+                    delay: 3000
+                });
+            });
+
+        getDogs(15)
+            .then((data) => {
+                slideshow2 = new Slideshow('slideshow2', {
+                    images: data,
+                    delay: 2000,
+                    backgroundColor: '#000'
+                });
+            });
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+total 20
+-rw-rw-r-- 1 cjosiris cjosiris    0 Dec 16 00:27 myfiles.txt
+-rw-rw-r-- 1 cjosiris cjosiris  623 Dec 10 21:44 passwordStrength.sh
+-rwxrwxrwx 1 cjosiris cjosiris  246 Dec 16 00:07 test1.sh
+-rw-rw-r-- 1 cjosiris cjosiris  269 Dec 16 00:22 test34.sh
+-rwxrwxrwx 1 cjosiris cjosiris   33 Dec 16 00:23 test5.sh
+-rw-rw-r-- 1 cjosiris cjosiris 1304 Dec 10 21:37 userManagement.sh

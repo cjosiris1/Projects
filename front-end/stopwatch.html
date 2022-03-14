@@ -1,0 +1,162 @@
+<!--
+Interview Question: Implement a Stopwatch
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stopwatch</title>
+    <style type="text/css">
+        .stopwatch-wrapper {
+            text-align: center;
+            padding: 4em;
+        }
+        .stopwatch-time{
+            display: inline-flex;
+            background-color: beige;
+            padding: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #eee;
+            font-size: 4em;
+        }
+    </style>
+</head>
+<body>
+<div class="stopwatch-wrapper">
+    <div class="stopwatch-time">
+        <div id="stopwatchHours">00</div>
+        <div class="stopwatch-time-separator">:</div>
+        <div id="stopwatchMins">00</div>
+        <div class="stopwatch-time-separator">:</div>
+        <div id="stopwatchSecs">00</div>
+    </div>
+    <div class="stopwatch-buttons">
+        <button id="startTimerBtn">Start</button>
+        <button id="stopTimerBtn" disabled="true">Stop</button>
+        <button id="clearTimerBtn" disabled="true">Clear</button>
+    </div>
+</div>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // initialize the setInterval variable that will hold our interval loop
+        let interval = null;
+        let elapsedTime = 0;
+
+        /**
+         * Updates our stopwatch
+         * @param timeInSeconds
+         */
+        const updateWatch = (timeInSeconds) => {
+
+            // get hours = floor(seconds / (60 * 60))
+            const hours = Math.floor(timeInSeconds / (60 * 60));
+
+            // get minutes = floor((seconds / 60) - (hours * 60))
+            const minutes = Math.floor((timeInSeconds / 60) - (hours * 60));
+
+            // get seconds = seconds - (hours * 60 * 60) - (minutes * 60)
+            const seconds = timeInSeconds - (hours * 60 * 60) - (minutes * 60)
+
+            // console.log(hours, minutes, seconds)
+
+            // update the hours
+            document.getElementById('stopwatchHours').innerHTML = hours < 10 ? "0" + hours : hours;
+
+            // update the minutes
+            document.getElementById('stopwatchMins').innerHTML = minutes < 10 ? "0" + minutes : minutes;
+
+            // update the seconds
+            document.getElementById('stopwatchSecs').innerHTML = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        /**
+         * Starts our timer
+         */
+        const startTimer = () => {
+
+            // initialize our setInterval that runs every second
+            interval = setInterval(() => {
+
+                // increment time by 1
+                elapsedTime++;
+
+                // updateWatch(time)
+                updateWatch(elapsedTime);
+
+            }, 1000);
+        }
+
+        /**
+         * stops our timer
+         */
+        const stopTimer = () => {
+            clearInterval(interval);
+        };
+
+
+        // initialize all our stopwatch buttons
+        const $startBtn = document.getElementById('startTimerBtn');
+        const $stopBtn = document.getElementById('stopTimerBtn');
+        const $clearBtn = document.getElementById('clearTimerBtn');
+
+        // add click event listener on start button
+        $startBtn.addEventListener('click', function () {
+
+            // disable start button
+            this.setAttribute('disabled', true);
+
+            // enable stop button
+            $stopBtn.removeAttribute('disabled');
+
+            // enable clear button
+            $clearBtn.removeAttribute('disabled');
+
+            // start our timer using the elapsed time
+            startTimer();
+
+        });
+
+
+        // add click event Listener on stop button
+        $stopBtn.addEventListener('click', function () {
+
+            // disable stop button
+            this.setAttribute('disabled', false);
+
+            // enable start button
+            $startBtn.removeAttribute('disabled');
+
+            // enable clear button
+            $clearBtn.removeAttribute('disabled');
+
+            // stop our time
+            stopTimer();
+        });
+
+        // add click event listener on clear button
+        $clearBtn.addEventListener('click', function () {
+
+            // reset elapsed time
+            elapsedTime = 0;
+
+            // update watch
+            updateWatch(elapsedTime);
+
+            // stop timer
+            stopTimer();
+
+            // disable clear button
+            this.setAttribute('disabled', true);
+
+            // re-enable start button
+            $startBtn.removeAttribute('disabled');
+
+
+            // disable stop button
+            $stopBtn.setAttribute('disabled', true);
+        });
+    });
+</script>
+</body>
+</html>

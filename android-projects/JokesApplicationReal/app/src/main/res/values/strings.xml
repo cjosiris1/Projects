@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">JokesApplicationReal</string>
+    <string name="joke1">Why did the chicken cross the road?</string>
+    <string name="joke2">What did the mother buffalo say to her son when leaving him at preschool?</string>
+    <string name="joke3">What is red and smells like blue paint?</string>
+    <string name="joke4">What do you call a bear with no ears?</string>
+    <string name="joke5">I\'m not lazy</string>
+    <string name="joke6">Never let a kiss fool you</string>
+</resources>
