@@ -12,3 +12,5 @@ Eclipse Projects - Use of Eclipse and Java. More projects which dealt with Data 
 Front End - Use of Javascript and Html. Simple projects set up within html including a slideshow, a stopwatch, and tic tac toe. 
 
 Movie Web Application (KinoKong) - A movie website set up to display multiple movies in a visually appealing format, practice with securing webpages, insertion and recollection of data within a database, and displaying videos within html. Use of Spring Suite, MongoDB, Postman, MAMP, MySQL.
+
+Ubuntu Terminal - Projects within a VM in which I studied launching projects through terminal commands and multiple aspects of cybersecurity. 
