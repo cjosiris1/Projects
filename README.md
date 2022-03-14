@@ -9,6 +9,6 @@ Data Structure and Algorithms - Use of Php, Python, Javascript. Multiple project
 
 Eclipse Projects - Use of Eclipse and Java. More projects which dealt with Data Structure and Algorithms to enhance my knowledge for well-optimized and efficient code.
 
-Front End - Use of Javascript and Html. Simple projects set up within html including a slideshow, tic tac toe, 
+Front End - Use of Javascript and Html. Simple projects set up within html including a slideshow, a stopwatch, and tic tac toe. 
 
 Movie Web Application (KinoKong) - A movie website set up to display multiple movies in a visually appealing format, practice with securing webpages, insertion and recollection of data within a database, and displaying videos within html. Use of Spring Suite, MongoDB, Postman, MAMP, MySQL.
