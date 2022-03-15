@@ -1,5 +1,5 @@
 # Projects
-These are several projects which I have worked on during my coding journey. 
+These are several projects which I have worked through during my coding journey. 
 
 Android Projects - Use of Kotlin and practice with mobile UI app design within Android Studio.
 
